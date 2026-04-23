@@ -14,9 +14,10 @@ CREATE TABLE IF NOT EXISTS events (
   url           TEXT NOT NULL DEFAULT '',
   price         TEXT NOT NULL CHECK (price IN ('free', 'paid', 'donation')),
   status        TEXT NOT NULL DEFAULT 'scheduled' CHECK (status IN ('scheduled', 'cancelled')),
-  lat           DOUBLE PRECISION,
-  lon           DOUBLE PRECISION,
-  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  lat                   DOUBLE PRECISION,
+  lon                   DOUBLE PRECISION,
+  creator_telegram_id   BIGINT NOT NULL DEFAULT 50375278,
+  created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 -- Enable Row Level Security
