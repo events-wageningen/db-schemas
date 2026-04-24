@@ -34,9 +34,12 @@ CREATE POLICY "public_read" ON events
 CREATE TABLE IF NOT EXISTS locations (
   id   TEXT PRIMARY KEY,
   name TEXT NOT NULL,
+  city TEXT,
   lat  DOUBLE PRECISION NOT NULL,
   lon  DOUBLE PRECISION NOT NULL
 );
+-- Migration for existing installations:
+-- ALTER TABLE locations ADD COLUMN IF NOT EXISTS city TEXT;
 
 ALTER TABLE locations ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "public_read" ON locations FOR SELECT USING (true);
