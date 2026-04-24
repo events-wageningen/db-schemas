@@ -30,6 +30,17 @@ CREATE POLICY "public_read" ON events
 -- Service role (bot, Supabase dashboard) bypasses RLS automatically —
 -- no extra policy needed for INSERT / UPDATE / DELETE.
 
+-- ── Locations (predefined venue presets for the Telegram bot) ────────────────
+CREATE TABLE IF NOT EXISTS locations (
+  id   TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  lat  DOUBLE PRECISION NOT NULL,
+  lon  DOUBLE PRECISION NOT NULL
+);
+
+ALTER TABLE locations ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "public_read" ON locations FOR SELECT USING (true);
+
 -- ── Categories ───────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS categories (
   id    TEXT PRIMARY KEY,
