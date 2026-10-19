@@ -12,13 +12,17 @@ CREATE TABLE IF NOT EXISTS events (
   category      TEXT[] NOT NULL DEFAULT '{}',
   tags          TEXT[] NOT NULL DEFAULT '{}',
   url           TEXT NOT NULL DEFAULT '',
-  price         TEXT NOT NULL CHECK (price IN ('free', 'paid', 'donation')),
+  price         TEXT NOT NULL CHECK (price IN ('free', 'paid', 'donation', 'unknown')),
   status        TEXT NOT NULL DEFAULT 'scheduled' CHECK (status IN ('scheduled', 'cancelled')),
   lat                   DOUBLE PRECISION,
   lon                   DOUBLE PRECISION,
   creator_telegram_id   BIGINT NOT NULL DEFAULT 50375278,
   created_at            TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Migration to allow 'unknown' price for existing databases:
+-- ALTER TABLE events DROP CONSTRAINT IF EXISTS events_price_check;
+-- ALTER TABLE events ADD CONSTRAINT events_price_check CHECK (price IN ('free', 'paid', 'donation', 'unknown'));
 
 -- Enable Row Level Security
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
